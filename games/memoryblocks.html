@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game</title>
+    <style>
+        * {
+  box-sizing: border-box;
+}
+body {
+  font-family: Arial, Tahoma, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+.control-buttons {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background-color: rgba(3, 169, 244, 0.9);
+}
+.control-buttons span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #F44336;
+  color: #FFF;
+  padding: 15px 25px;
+  font-size: 30px;
+  text-align: center;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.info-container {
+  width: 100%;
+  max-width: 1080px;
+  margin: 20px auto 0;
+  background-color: #F6F6F6;
+  padding: 20px;
+  font-size: 24px;
+  overflow: hidden;
+  border: 3px solid #222529;
+  border-radius: 10px;
+  box-shadow: 0px 1px 5px  #080707;
+  display: flex;
+  justify-content: space-between;
+}
+.memory-game-blocks {
+  display: grid;
+  grid-template-columns:repeat(5,1fr) ;
+  grid-template-rows: repeat(4,1fr);
+  margin: 20px 1px;
+  background: linear-gradient(27deg,#FFF,#0a0a0b);
+
+}
+.memory-game-blocks.no-clicking {
+  pointer-events: none;
+}
+.memory-game-blocks .game-block {
+  height: 100px;
+  transition: transform .5s;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  position: relative;
+  /* flex: 1 0 200px; */
+   margin:10px; 
+  
+  max-width: 100px;
+  box-sizing: border-box;
+}
+.memory-game-blocks .game-block .front {
+  background-color: #333;
+  line-height: 200px;
+}
+.memory-game-blocks .game-block .front:before {
+  content: '!';
+  color:transparent;
+  font-size: 140px;
+  font-weight: bold;
+}
+.memory-game-blocks .game-block .back {
+  background-color: #607D8B;
+  transform: rotateY(180deg);
+}
+.memory-game-blocks .game-block .back img {
+  width: 95px;
+  height: 95px;
+  
+}
+.memory-game-blocks .game-block .face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  backface-visibility: hidden;
+  border: 5px solid #c6cfd6;
+}
+.memory-game-blocks .game-block.is-flipped,
+.memory-game-blocks .game-block.has-match {
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+  pointer-events: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .info-container {
+    font-size: 18px;
+  }
+  .memory-game-blocks .game-block {
+    
+    max-height: 50px; ;
+    width:50px;
+  }
+  .memory-game-blocks .game-block .back img {
+  width: 48px;
+  height: 48px;
+  
+}
+.memory-game-blocks .game-block .face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  backface-visibility: hidden;
+  border: 2px solid #93c3e7;
+}
+}
+
+/* @media (max-width: 480px) {
+  .info-container {
+    font-size: 16px;
+  }
+  .memory-game-blocks .game-block {
+   width: 20px;
+    height: 20px;
+  }
+  .memory-game-blocks .game-block .back img {
+  width: 15px;
+  height: 15px;
+  
+}
+} */
+
+    </style>
+  </head>
+  <body>
+    <div class="control-buttons">
+      <span>Start Game</span>
+    </div>
+    <div class="info-container">
+      <div class="name">
+        Hello: <span></span>
+      </div>
+      <div class="tries">
+        Wrong Tries: <span>0</span>
+      </div>
+    </div>
+    <div class="memory-game-blocks">
+      <div class="game-block" data-technology="lion">
+        <div class="face front"></div>
+        <div class="face back">
+          <img decoding="async" src="lion.png" alt="">
+        </div>
+      </div>
+      <div class="game-block" data-technology="lion">
+        <div class="face front"></div>
+        <div class="face back">
+          <img decoding="async" src="lion.png" alt="">
+        </div>
+      </div>
+      <div class="game-block" data-technology="elephant">
+        <div class="face front"></div>
+        <div class="face back">
+          <img decoding="async" src="elephant.jpeg" alt="">
+        </div>
+      </div>
+      <div class="game-block" data-technology="elephant">
+        <div class="face front"></div>
+        <div class="face back">
+          <img decoding="async" src="elephant.jpeg" alt="">
+        </div>
+      </div>
+      <div class="game-block" data-technology="tiger">
+        <div class="face front"></div>
+        <div class="face back">
+          <img decoding="async" src="tiger.png" alt="">
+        </div>
+      </div>
+      <div class="game-block" data-technology="tiger">
+        <div class="face front"></div>
+        <div class="face back">
+          <img decoding="async" src="tiger.png" alt="">
+        </div>
+      </div>
+      <div class="game-block" data-technology="cat">
+        <div class="face front"></div>
+        <div class="face back">
+          <img decoding="async" src="cat.png" alt="">
+        </div>
+      </div>
+      <div class="game-block" data-technology="cat">
+        <div class="face front"></div>
+        <div class="face back">
+          <img decoding="async" src="cat.png" alt="">
+        </div>
+      </div>
+      <div class="game-block" data-technology="goat">
+        <div class="face front"></div>
+        <div class="face back">
+          <img decoding="async" src="goat.png" alt="">
+        </div>
+      </div>
+      <div class="game-block" data-technology="goat">
+        <div class="face front"></div>
+        <div class="face back">
+          <img decoding="async" src="goat.png" alt="">
+        </div>
+      </div>
+      <div class="game-block" data-technology="ziraf">
+        <div class="face front"></div>
+        <div class="face back">
+          <img decoding="async" src="ziraf.png" alt="">
+        </div>
+      </div>
+      <div class="game-block" data-technology="ziraf">
+        <div class="face front"></div>
+        <div class="face back">
+          <img decoding="async" src="ziraf.png" alt="">
+        </div>
+      </div>
+      <div class="game-block" data-technology="pink">
+        <div class="face front"></div>
+        <div class="face back">
+          <img decoding="async" src="pink.png" alt="">
+        </div>
+      </div>
+      <div class="game-block" data-technology="pink">
+        <div class="face front"></div>
+        <div class="face back">
+          <img decoding="async" src="pink.png" alt="">
+        </div>
+      </div>
+      <div class="game-block" data-technology="monkey">
+        <div class="face front"></div>
+        <div class="face back">
+          <img decoding="async" src="monkey.jpeg" alt="">
+        </div>
+      </div>
+      <div class="game-block" data-technology="monkey">
+        <div class="face front"></div>
+        <div class="face back">
+          <img decoding="async" src="monkey.jpeg" alt="">
+        </div>
+      </div>
+      <div class="game-block" data-technology="brown">
+        <div class="face front"></div>
+        <div class="face back">
+          <img decoding="async" src="brown.png" alt="">
+        </div>
+      </div>
+      <div class="game-block" data-technology="brown">
+        <div class="face front"></div>
+        <div class="face back">
+          <img decoding="async" src="brown.png" alt="">
+        </div>
+      </div>
+      <div class="game-block" data-technology="donkey">
+        <div class="face front"></div>
+        <div class="face back">
+          <img decoding="async" src="donkey.jpeg" alt="">
+        </div>
+      </div>
+      <div class="game-block" data-technology="donkey">
+        <div class="face front"></div>
+        <div class="face back">
+          <img decoding="async" src="donkey.jpeg" alt="">
+        </div>
+      </div>
+    </div>
+    <audio id="success" src="audio/success.mp4" preload="auto"></audio>
+    <audio id="fail" src="audio/fail.mp4" preload="auto"></audio>
+    <script>
+        // Select The Start Game Button
+document.querySelector(".control-buttons span").onclick = function () {
+
+  // Prompt Window To Ask For Name
+  let yourName = prompt("Whats Your Name?");
+
+  // If Name Is Empty
+  if (yourName == null || yourName == "") {
+
+    // Set Name To Unknown
+    document.querySelector(".name span").innerHTML = 'Unknown';
+
+  // Name Is Not Empty
+  } else {
+
+    // Set Name To Your Name
+    document.querySelector(".name span").innerHTML = yourName;
+
+  }
+
+  // Remove Splash Screen
+  document.querySelector(".control-buttons").remove();
+
+};
+
+// Effect Duration
+let duration = 1000;
+
+// Select Blocks Container
+let blocksContainer = document.querySelector(".memory-game-blocks");
+
+// Create Array From Game Blocks
+let blocks = Array.from(blocksContainer.children);
+
+// Create Range Of Keys
+// let orderRange = [...Array(blocks.length).keys()];
+
+let orderRange = Array.from(Array(blocks.length).keys());
+
+// console.log(orderRange);
+shuffle(orderRange);
+// console.log(orderRange);
+
+// Add Order Css Property To Game Blocks
+blocks.forEach((block, index) => {
+
+  // Add CSS Order Property
+  block.style.order = orderRange[index];
+
+  // Add Click Event
+  block.addEventListener('click', function () {
+
+    // Trigger The Flip Block Function
+    flipBlock(block);
+
+  });
+
+});
+
+// Flip Block Function
+function flipBlock(selectedBlock) {
+
+  // Add Class is-flipped
+  selectedBlock.classList.add('is-flipped');
+
+  // Collect All Flipped Cards
+  let allFlippedBlocks = blocks.filter(flippedBlock => flippedBlock.classList.contains('is-flipped'));
+
+  // If Theres Two Selected Blocks
+  if (allFlippedBlocks.length === 2) {
+
+    // console.log('Two Flipped Blocks Selected');
+
+    // Stop Clicking Function
+    stopClicking();
+
+    // Check Matched Block Function
+    checkMatchedBlocks(allFlippedBlocks[0], allFlippedBlocks[1]);
+
+  }
+
+}
+
+// Stop Clicking Function
+function stopClicking() {
+
+  // Add Class No Clicking on Main Container
+  blocksContainer.classList.add('no-clicking');
+
+  // Wait Duration
+  setTimeout(() => {
+
+    // Remove Class No Clicking After The Duration
+    blocksContainer.classList.remove('no-clicking');
+
+  }, duration);
+
+}
+
+// Check Matched Block
+function checkMatchedBlocks(firstBlock, secondBlock) {
+  let triesElement = document.querySelector('.tries span');
+
+  if (firstBlock.dataset.technology === secondBlock.dataset.technology) {
+    firstBlock.classList.remove('is-flipped');
+    secondBlock.classList.remove('is-flipped');
+
+    firstBlock.classList.add('has-match');
+    secondBlock.classList.add('has-match');
+
+    document.getElementById('success').play();
+
+    // Check if the game is won
+    checkWinCondition();
+
+  } else {
+    triesElement.innerHTML = parseInt(triesElement.innerHTML) + 1;
+
+    setTimeout(() => {
+      firstBlock.classList.remove('is-flipped');
+      secondBlock.classList.remove('is-flipped');
+    }, duration);
+
+    document.getElementById('fail').play();
+  }
+}
+
+// Function to check if the game is won
+function checkWinCondition() {
+  // Check if all blocks have the "has-match" class
+  let allMatched = blocks.every(block => block.classList.contains('has-match'));
+
+  if (allMatched) {
+    // Display a win message
+    let winMessage = document.createElement('div');
+    winMessage.className = 'win-message';
+    winMessage.textContent = 'Congratulations! You Win!';
+    document.body.appendChild(winMessage);
+
+    // Style the win message
+    winMessage.style.position = 'fixed';
+    winMessage.style.top = '50%';
+    winMessage.style.left = '50%';
+    winMessage.style.transform = 'translate(-50%, -50%)';
+    winMessage.style.backgroundColor = '#4CAF50';
+    winMessage.style.color = '#fff';
+    winMessage.style.padding = '20px 40px';
+    winMessage.style.borderRadius = '10px';
+    winMessage.style.fontSize = '24px';
+    winMessage.style.textAlign = 'center';
+    winMessage.style.zIndex = '3';
+
+    // Optionally, stop any further interaction
+    blocksContainer.classList.add('no-clicking');
+  }
+}
+
+// Shuffle Function
+function shuffle(array) {
+
+  // Settings Vars
+  let current = array.length,
+      temp,
+      random;
+
+  while (current > 0) {
+
+    // Get Random Number
+    random = Math.floor(Math.random() * current);
+
+    // Decrease Length By One
+    current--;
+
+    // [1] Save Current Element in Stash
+    temp = array[current];
+
+    // [2] Current Element = Random Element
+    array[current] = array[random];
+
+    // [3] Random Element = Get Element From Stash
+    array[random] = temp;
+
+  }
+  return array;
+}
+
+
+
+    </script>
+  </body>
+</html>

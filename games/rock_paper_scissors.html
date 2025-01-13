@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+    <title>Rock,paper & scissor</title>
+
+    <style>
+        @keyframes shakePlayer {
+  0% { transform: scaleX(-1) translateY(0) }
+  25% { transform:scaleX(-1) translateY(10px) }
+  50% { transform:scaleX(-1) translateY(-10px) }
+  75% { transform:scaleX(-1) translateY(10px) }
+  100% { transform:scaleX(-1) translateY(0) }
+ }
+
+ @keyframes shakeComputer {
+  0% { transform: translateY(0) }
+  25% { transform: translateY(10px) }
+  50% { transform: translateY(-10px) }
+  75% { transform: translateY(10px) }
+  100% { transform: translateY(0) }
+ }
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  overflow-x: hidden;
+  background: #0f0f0f;
+  color: #fff;
+  font-family: "Open Sans", sans-serif;
+}
+
+section {
+  min-height: 100vh;
+  margin: 0 auto;
+  width: 80vw;
+}
+
+
+/*--- Reset Button -----*/
+.reset{
+  background: #0f0f0f;
+  border: 1px solid #fff;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.reset:hover{
+  background: #fff;
+  color: #0f0f0f;
+}
+
+.reset-div{
+  text-align: center;
+}
+/*--------------------*/
+
+.intro h1 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.score {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  max-width: 55vw;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.score h2{
+  font-weight: 400;
+}
+
+.score hr{
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+.winner{
+  font-weight: 400;
+}
+
+.shakePlayer{
+  animation:shakePlayer 0.25s infinite;
+}
+.shakeComputer{
+  animation:shakeComputer 0.25s infinite;
+}
+
+@media screen and (max-width:725px) {
+  
+}
+.match {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: -2rem;
+}
+
+.match h2 {
+  font-size: 2rem;
+  text-align: center;
+}
+
+.match .hands {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+}
+
+/* .player-hand,
+.computer-hand{
+
+} */
+.match .hands .player-hand {
+  transform: scaleX(-1);
+}
+
+.options {
+  min-height: 130px;
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+.options button {
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  border: none;
+  color: #fff;
+  background-color: transparent;
+}
+
+.options button label{
+  font-size: 18px;
+  margin-top: 0px;
+  opacity: 0;
+  display: none;
+}
+
+.options button:hover > label{
+  margin-top: 25px;
+  display: inline-block;
+  opacity: 1;
+}
+
+.options button img{
+  height: 50px;
+}
+
+.options .paper img{
+  width: 50px;
+  height: auto;
+}
+
+.options .rock img{
+  margin-top: 10px;
+}
+
+.options .scissor img{
+  margin-top: 10px;
+}
+
+@media screen and (max-width: 810px) {
+  .score{
+    max-width: 60vw;
+  }
+  .player-hand, .computer-hand {
+    width: 215px;
+  }
+  h2.result{
+    font-size: 1.3rem;
+  }
+  h2.winner{
+    font-size: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .score{
+    max-width: 70vw;
+  }
+  .hands{
+    gap: 1rem;
+  }
+.player-hand,
+.computer-hand{
+  width: 170px;
+}
+h2.result{
+  font-size: 1.2rem;
+}
+h2.winner{
+  font-size: 1.5rem;
+}
+}
+    </style>
+    
+  </head>
+  <body>
+    <section class="game">
+      <div class="intro">
+        <h1>Rock, Paper & Scissors</h1>
+      </div>
+
+      <div class="score">
+        <h2>
+          You
+          <br>
+          <hr>
+          Score: <span class="you">0</span>
+        </h2>
+        <h2>
+          Computer
+          <br>
+          <hr>
+          Score: <span class="computer">0</span>
+        </h2>
+      </div>
+
+      <div class="match">
+        <div class="hands">
+          <img class="player-hand" src="rock.png" alt="" />
+          <h2 class="result"></h2>
+          <img class="computer-hand" src="rock.png" alt="" />
+        </div>
+
+        <h2 class="winner">Choose an option</h2>
+        <div class="options">
+          <button class="rock">
+            <img src="./rock.svg" alt="rock"></img>
+            <br>
+            <label>rock</label>
+          </button>
+          <button class="paper">
+            <img src="./paper.svg" alt="paper"></img>
+            <br>
+            <label>paper</label>
+          </button>
+          <button class="scissor">
+            <img src="./scissor.svg" alt="scissor"></img>
+            <br>
+            <label>scissor</label>
+          </button>
+        </div>
+      </div>
+      
+      <!----- Reset Button ----->
+      <div class="reset-div">
+        <button class="reset">Reset Game</button>
+      </div>
+
+    </section>
+    <script>
+        const options = ["rock", "paper", "scissor"];
+let score = {
+  you: 0,
+  computer: 0
+};
+const WIN_GREEN = "#6ac475";
+const LOSE_RED = "#c4736a";
+const DRAW_BLUE = "#5865f2";
+
+const playerHand = document.querySelector(".hands .player-hand");
+const computerHand = document.querySelector(".hands .computer-hand");
+
+function getRandomInt() {
+  return Math.floor(Math.random() * 3);
+}
+
+const btns = document.querySelectorAll(".options button");
+btns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    document.querySelector(".hands .player-hand").src = "rock.png";
+    document.querySelector(".hands .computer-hand").src = "rock.png";
+    playerHand.classList.add('shakePlayer')
+    computerHand.classList.add('shakeComputer')
+    const playerA = btn.querySelector("label").innerText;
+    const playerB = options[getRandomInt()];
+    setTimeout(()=>compare(playerA, playerB),1000)
+    
+  });
+});
+
+function compare(player, computer) {
+  const won = "YOU WON";
+  const lose = "YOU LOST";
+  const resultEl = document.querySelector(".hands .result");
+  const youScore = document.querySelector(".score .you");
+  const computerScore = document.querySelector(".score .computer");
+
+  if (player == computer) {
+    console.log(`${player} is equal to ${computer}`);
+    update(player, computer);
+    resultEl.style.color = DRAW_BLUE;
+    resultEl.innerText = "DRAW";
+  } else if (player == "rock" && computer == "scissor") {
+    console.log(`${player} defeats ${computer}`);
+    update(player, computer);
+    score.you++;
+    resultEl.style.color = WIN_GREEN;
+    resultEl.innerText = won;
+    youScore.innerText = score.you;
+  } else if (player == "rock" && computer == "paper") {
+    console.log(`${player} loses to ${computer}`);
+    update(player, computer);
+    score.computer++;
+    resultEl.style.color = LOSE_RED;
+    resultEl.innerText = lose;
+    computerScore.innerText = score.computer;
+  } else if (player == "paper" && computer == "scissor") {
+    console.log(`${player} loses to ${computer}`);
+    update(player, computer);
+    score.computer++;
+    resultEl.style.color = LOSE_RED;
+    resultEl.innerText = lose;
+    computerScore.innerText = score.computer;
+  } else if (player == "paper" && computer == "rock") {
+    console.log(`${player} defeats ${computer}`);
+    update(player, computer);
+    score.you++;
+    resultEl.style.color = WIN_GREEN;
+    resultEl.innerText = won;
+    youScore.innerText = score.you;
+  } else if (player == "scissor" && computer == "rock") {
+    console.log(`${player} loses to ${computer}`);
+    update(player, computer);
+    score.computer++;
+    resultEl.style.color = LOSE_RED;
+    resultEl.innerText = lose;
+    computerScore.innerText = score.computer;
+  } else if (player == "scissor" && computer == "paper") {
+    console.log(`${player} defeats ${computer}`);
+    update(player, computer);
+    score.you++;
+    resultEl.style.color = WIN_GREEN;
+    resultEl.innerText = won;
+    youScore.innerText = score.you;
+  }
+  // playerHand.classList.remove('shake')
+  // computerHand.classList.remove('shake')
+}
+function update(player, computer) {
+  const rock = "rock.png";
+  const paper = "paper.png";
+  const scissor = "scissor.png";
+
+  // playerHand
+  if (player == "rock") {
+    playerHand.src = rock;
+  } else if (player == "paper") {
+    playerHand.src = paper;
+  } else if (player == "scissor") {
+    playerHand.src = scissor;
+  }
+
+  // computerHand
+  if (computer == "rock") {
+    computerHand.src = rock;
+  } else if (computer == "paper") {
+    computerHand.src = paper;
+  } else if (computer == "scissor") {
+    computerHand.src = scissor;
+  }
+  playerHand.classList.remove('shakePlayer')
+  computerHand.classList.remove('shakeComputer')
+}
+
+
+//Reset Game Button ---------------------------------
+const resetBtn = document.querySelector(".reset");
+resetBtn.addEventListener("click", () => {
+  score.you = 0;
+  score.computer = 0;
+  document.querySelector(".score .you").innerText = score.you;
+  document.querySelector(".score .computer").innerText = score.computer;
+  document.querySelector(".hands .result").innerText = "";
+  document.querySelector(".hands .player-hand").src = "rock.png";
+  document.querySelector(".hands .computer-hand").src = "rock.png";
+});
+
+
+// // Mapping
+// // 0 -> rock, 1->paper, 2->scissor
+// const options = ["rock", "paper", "scissor"];
+
+// // number
+// /**
+//  *
+//  * @param {number} player1Choice
+//  * @param {number} player2Choice
+//  * return string player1, player2, draw
+//  */
+// function whoWon(player1Choice, player2Choice) {
+//   /**
+//    * 0, 0 => draw
+//    * 0, 1 => rock
+//    * 0, 2 => scissor
+//    * 1, 0 => rock
+//    * 1, 1 => draw
+//    * 1, 2
+//    * 2, 0
+//    * 2, 1
+//    * 2, 2 => draw
+//    */
+// }
+
+// function generateComputerChoice() {
+//   let a = options[getRandomInt(3)];
+//   console.log(a);
+// }
+// generateComputerChoice();
+
+// function getRandomInt(max) {
+//   return Math.floor(Math.random() * max);
+// }
+    </script>
+  </body>
+</html>

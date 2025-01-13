@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Games</title>
+    <link rel="shortcut icon" href="MinigameGame.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+ </head> 
+<body>
+    <nav class="navbar">
+    <div class="nav-logo">Mini Games</div>
+    <div class="hamburger" onclick="toggleMenu()">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="nav-categories">
+        <button class="category-btn active" data-category="all">All</button>
+        <button class="category-btn" data-category="Action">Action</button>
+        <button class="category-btn" data-category="Sport">Sport</button>
+        <button class="category-btn" data-category="Puzzle">Puzzle</button>
+    </div>
+</nav>
+
+    <main>
+        <div class="featured-game">
+            <div class="game-card featured">
+                <h2>Dragon Quest</h2>
+                <p>Embark on an epic journey through magical realms</p>
+                <button class="play-btn" >Play Now</button>
+            </div>
+        </div>
+
+        <div class="game-carousel">
+            <button class="scroll-btn left">&lt;</button>
+            <div class="carousel-container">
+                <div class="carousel-track">
+                    <!-- Games will be inserted here by JavaScript -->
+                </div>
+            </div>
+            <button class="scroll-btn right">&gt;</button>
+        </div>
+    </main>
+    <script src="main.js"></script>
+</body>
+</html>
